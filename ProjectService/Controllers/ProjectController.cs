@@ -17,16 +17,32 @@ namespace ProjectService.Controllers
         ProjectRepository _repo = new ProjectRepository();
         // GET: api/<ProductController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("GetProjects")]
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_repo.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
         }
 
         // GET api/<ProductController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("Get/{id}")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                return Ok(_repo.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
         }
 
         // POST api/<ProductController>
@@ -48,14 +64,34 @@ namespace ProjectService.Controllers
 
         // PUT api/<ProductController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(Project p)
         {
+            try
+            {
+                _repo.UpdateProject(p);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+
+            }
         }
 
         // DELETE api/<ProductController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _repo.DeleteProject(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.InnerException.Message);
+            }
         }
     }
 }

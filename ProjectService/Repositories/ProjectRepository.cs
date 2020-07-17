@@ -19,5 +19,28 @@ namespace ProjectService.Repositories
             _context.Project.Add(p);
             _context.SaveChanges();
         }
+
+        public void DeleteProject(int id)
+        {
+            Project p = _context.Project.Find(id);
+            _context.Project.Remove(p);
+            _context.SaveChanges();
+        }
+
+        public List<Project> GetAll()
+        {
+            return _context.Project.ToList();
+        }
+
+        public Project GetById(int id)
+        {
+            return _context.Project.Find(id);
+        }
+
+        public void UpdateProject(Project obj)
+        {
+            _context.Project.Update(obj);
+            _context.SaveChanges();
+        }
     }
 }
